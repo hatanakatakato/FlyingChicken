@@ -20,12 +20,14 @@ public class ChickenController : MonoBehaviour
             if (touch.phase == TouchPhase.Began && touch.position.x > Screen.width / 2)
             {
                 //画面左タッチ時
-                this.transform.Translate(-1, 0, 0);
+                Debug.Log("画面左タッチ");
+                this.transform.Translate(1, 0, 0);
             }
             else if(touch.phase == TouchPhase.Began && touch.position.x <= Screen.width / 2)
             {
                 //画面右タッチ時
-                this.transform.Translate(1, 0, 0);
+                Debug.Log("画面右タッチ");
+                this.transform.Translate(-1, 0, 0);
             }
         }
 
