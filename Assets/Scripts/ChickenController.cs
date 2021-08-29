@@ -56,5 +56,11 @@ public class ChickenController : MonoBehaviour
 
         }
 
+        //落下の速度制限
+        if(this.rb2D.velocity.y < -10f)
+        {
+            this.rb2D.velocity = new Vector2(this.rb2D.velocity.x, -10f);
+        }
+
     }
 }

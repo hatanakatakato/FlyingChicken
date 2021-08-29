@@ -7,11 +7,14 @@ public class GeneratorController : MonoBehaviour
     //再生するprefab取得
     public GameObject bombPrefab;
     public GameObject friedChickenPrefab;
+    public GameObject woodPrefab;
     //プレイヤー宣言
     private GameObject chicken;
 
     //アイテム生成開始位置Y
     [SerializeField] float nextItemAppearPosY = 8f;
+    //次の柵生成位置
+    int nextWoodAppearPodsY = 20;
     //次の爆弾の列は難か簡単かを区別するために作る
     private bool nextIsHard = false;
 
@@ -24,23 +27,32 @@ public class GeneratorController : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(this.nextItemAppearPosY - this.chicken.GetComponent<Transform>().transform.position.y);
-
 
         //次のアイテム生成位置とチキンとの距離が20より小さくなったら
         if (this.nextItemAppearPosY - this.chicken.GetComponent<Transform>().transform.position.y < 20f)
         {
-            Debug.Log("if");
 
             //次のアイテム生成位置とチキンとの距離が20より大きくなるまで
             while (this.nextItemAppearPosY - this.chicken.GetComponent<Transform>().transform.position.y < 20f)
             {
-                Debug.Log("while");
                 //プレファブを生成する
                 GeneratePrefab();
             }
 
         }
+
+        //woodPrefabを生成する
+        if(this.nextWoodAppearPodsY - this.chicken.GetComponent<Transform>().position.y < 20f)
+        {
+            Debug.Log("木をつけたい");
+            GameObject instance1 = Instantiate(this.woodPrefab);
+            GameObject instance2 = Instantiate(this.woodPrefab);
+            instance1.transform.position = new Vector2(-4, this.nextWoodAppearPodsY);
+            instance2.transform.position = new Vector2(4, this.nextWoodAppearPodsY);
+            nextWoodAppearPodsY += 10;
+        }
+
+
     }
 
     //フライドチキン,難しい爆弾列,簡単な爆弾列を生成するメソッド
