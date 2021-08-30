@@ -44,7 +44,6 @@ public class GeneratorController : MonoBehaviour
         //woodPrefabを生成する
         if(this.nextWoodAppearPodsY - this.chicken.GetComponent<Transform>().position.y < 20f)
         {
-            Debug.Log("木をつけたい");
             GameObject instance1 = Instantiate(this.woodPrefab);
             GameObject instance2 = Instantiate(this.woodPrefab);
             instance1.transform.position = new Vector2(-4, this.nextWoodAppearPodsY);
@@ -65,7 +64,6 @@ public class GeneratorController : MonoBehaviour
             int num = Random.Range(1, 31);
             if(num == 1)
             {
-                Debug.Log("チキン出す");
                 int instancePosX = Random.Range(-3, 4);
                 GameObject instance = Instantiate(this.friedChickenPrefab);
                 instance.transform.position = new Vector2(instancePosX, this.nextItemAppearPosY);
@@ -73,7 +71,6 @@ public class GeneratorController : MonoBehaviour
         }
         else
         {
-            Debug.Log("爆弾出す");
             if (this.nextIsHard)
             {
                 //難しい列の爆弾を作る

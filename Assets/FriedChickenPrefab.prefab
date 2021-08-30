@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 7751613399541604845}
   - component: {fileID: 5893236618263718258}
   - component: {fileID: -3481095407395884774}
+  - component: {fileID: 7934672552077660934}
   m_Layer: 0
   m_Name: FriedChickenPrefab
-  m_TagString: Untagged
+  m_TagString: FriedChickenTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1b76a0d73963b411ab28f1bee9cc025e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 69ad90a5ff4d84a588ec85b9998b5554, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -95,3 +96,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53757c7da38364a9496e014fc03b518f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!68 &7934672552077660934
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7251877957168652119}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -2.56, y: 0}
+  - {x: -2.5334067, y: 2.159625}
+  - {x: -1.2917417, y: 2.6714358}
+  - {x: 0.39400995, y: 2.2664986}
+  - {x: 2.4333203, y: -1.8672063}
+  - {x: 1.7529428, y: -2.5652351}
+  - {x: -2.5068126, y: -0.0000011920929}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
