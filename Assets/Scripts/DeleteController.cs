@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class DeleteController : MonoBehaviour
 {
-    private GameObject chicken;
+    private Transform playerTransform;
 
     void Start()
     {
-        this.chicken = GameObject.Find("Chicken");
+        this.playerTransform = GameObject.Find("Chicken").GetComponent<Transform>().transform;
     }
 
     void Update()
     {
         //Playerよりyに-20離れたら消滅
-        if (this.chicken.transform.position.y - this.transform.position.y > 10f)
+        if (playerTransform.position.y - this.transform.position.y > 10f)
         {
             Destroy(this.gameObject);
         }

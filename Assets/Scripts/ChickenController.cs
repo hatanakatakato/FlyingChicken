@@ -5,29 +5,25 @@ using UnityEngine.UI;
 
 public class ChickenController : MonoBehaviour
 {
-    //コンポーネント宣言
-    private Rigidbody2D rb2D;
-    private GameObject audioController;
+    //自身のコンポーネント
+    private Rigidbody2D myRb2D;
     private Animator myAnimator;
-    private GameObject scoreText;
-
-    //変数宣言
+    //外部から注入するコンポーネント
+    public AudioController audioController;
+    public Text scoreText;
+    //速度
     [SerializeField] float maxVelocity = 10f;
     [SerializeField] float jumpVectorX = 4f;
     [SerializeField] float jumpVectorY = 10f;
-    //無敵時間
-    public float invincibleTime = 0f;
     //フライドチキン獲得点
     private int friedChickenScore = 0;
 
 
     void Start()
     {
-        //コンポーネント取得
-        this.rb2D = GetComponent<Rigidbody2D>();
-        this.audioController = GameObject.Find("AudioController");
+        //自身のコンポーネント取得
+        this.myRb2D = GetComponent<Rigidbody2D>();
         this.myAnimator = GetComponent<Animator>();
-        this.scoreText = GameObject.Find("ScoreText");
     }
 
     void Update()
@@ -62,9 +58,9 @@ public class ChickenController : MonoBehaviour
         }
 
         //落下の速度制限
-        if (this.rb2D.velocity.y < -10f)
+        if (this.myRb2D.velocity.y < -this.maxVelocity)
         {
-            this.rb2D.velocity = new Vector2(this.rb2D.velocity.x, -10f);
+            this.myRb2D.velocity = new Vector2(this.myRb2D.velocity.x, -this.maxVelocity);
         }
 
     }
@@ -75,6 +71,7 @@ public class ChickenController : MonoBehaviour
         //木に当たる
         if (collision.gameObject.CompareTag("WoodTag"))
         {
+            //当たったx座標の正負でジャンプ方向を決める
             ContactPoint2D[] contact = collision.contacts;
             if (contact[0].point.x < 0)
             {
@@ -99,10 +96,10 @@ public class ChickenController : MonoBehaviour
     //friedChickenに当たった時
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //フライドチキンに当たる
         if (collision.gameObject.CompareTag("FriedChickenTag"))
         {
             this.friedChickenScore += 100;
+            Destroy(collision.gameObject);
         }
     }
 
@@ -113,20 +110,18 @@ public class ChickenController : MonoBehaviour
         {
             //右ジャンプ
             this.myAnimator.SetTrigger("RightJumpTrigger");
-            this.rb2D.velocity = new Vector2(this.jumpVectorX, this.jumpVectorY);
+            this.myRb2D.velocity = new Vector2(this.jumpVectorX, this.jumpVectorY);
         }
         else
         {
             //左ジャンプ
             this.myAnimator.SetTrigger("LeftJumpTrigger");
-            this.rb2D.velocity = new Vector2(-this.jumpVectorX, this.jumpVectorY);
+            this.myRb2D.velocity = new Vector2(-this.jumpVectorX, this.jumpVectorY);
         }
 
         //無敵状態じゃないならジャンプ音を鳴らす
-        if (this.invincibleTime <= 0)
-        {
-            this.audioController.GetComponent<AudioController>().PlayJumpSound();
-        }
+
+        this.audioController.PlayJumpSound();
     }
 
     //スコア計算と表示
@@ -135,7 +130,7 @@ public class ChickenController : MonoBehaviour
         //計算
         int score = (int)this.transform.position.y + this.friedChickenScore + 4;
         //表示
-        this.scoreText.GetComponent<Text>().text = $"Score:{score}";
+        scoreText.text = $"Score:{score}";
     }
 
 

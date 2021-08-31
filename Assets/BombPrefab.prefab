@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7035549816172774055}
   - component: {fileID: 2002108540396193565}
   - component: {fileID: 6278809168898505666}
-  - component: {fileID: 8957132179783860994}
+  - component: {fileID: 942505116}
   m_Layer: 0
   m_Name: BombPrefab
   m_TagString: BombTag
@@ -146,7 +146,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.2}
   serializedVersion: 2
   m_Radius: 2.1
---- !u!50 &8957132179783860994
+--- !u!50 &942505116
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
