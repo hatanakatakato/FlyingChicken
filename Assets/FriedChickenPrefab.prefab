@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5893236618263718258}
   - component: {fileID: -3481095407395884774}
   - component: {fileID: 7934672552077660934}
+  - component: {fileID: 8983182056041442872}
   m_Layer: 0
   m_Name: FriedChickenPrefab
   m_TagString: FriedChickenTag
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7251877957168652119}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -106,7 +107,7 @@ EdgeCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -123,3 +124,15 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &8983182056041442872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7251877957168652119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 357f6d91e8eca469392f39c00ab1d5aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

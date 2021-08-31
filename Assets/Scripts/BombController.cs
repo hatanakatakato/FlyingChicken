@@ -5,10 +5,12 @@ using UnityEngine;
 public class BombController : MonoBehaviour
 {
     private Animator myAnimator;
+    private GameObject playerChicken;
 
     void Start()
     {
-        myAnimator = GetComponent<Animator>();
+        this.myAnimator = GetComponent<Animator>();
+        this.playerChicken = GameObject.Find("Chicken");
     }
 
     // Update is called once per frame
@@ -19,8 +21,9 @@ public class BombController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.CompareTag("Player"))
         {
+            //爆発アニメーション再生
             myAnimator.SetTrigger("Explosion");
         }
     }
