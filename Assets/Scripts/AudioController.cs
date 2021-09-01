@@ -5,44 +5,33 @@ using UnityEngine;
 public class AudioController : MonoBehaviour
 {
     //自身のコンポーネント
-    private AudioSource audioSource;
+    public AudioSource myAudioSource;
 
     //音ファイルmp3
     public AudioClip jumpSound;
     public AudioClip endSound;
     public AudioClip[] clips;
 
-
-    void Awake()
-    {
-        //自身のコンポーネント取得
-        this.audioSource = GetComponent<AudioSource>();
-    }
-
-    void Update()
-    {
-    }
-
     //ジャンプ音再生
     public void PlayJumpSound()
     {
-        audioSource.PlayOneShot(this.jumpSound);
+        myAudioSource.PlayOneShot(this.jumpSound);
     }
     //死んだ音再生
     public void PlayEndSound()
     {
-        audioSource.PlayOneShot(this.endSound);
+        myAudioSource.PlayOneShot(this.endSound);
     }
     //メニューBGM再生
     public void PlayMenuBGM()
     {
-        audioSource.clip = clips[0];
-        audioSource.Play();
+        myAudioSource.clip = clips[0];
+        myAudioSource.Play();
     }
     //GameBGM再生
     public void PlayGameBGM()
     {
-        audioSource.clip = clips[1];
-        audioSource.Play();
+        myAudioSource.clip = clips[1];
+        myAudioSource.Play();
     }
 }
