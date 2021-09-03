@@ -20,8 +20,6 @@ public class ChickenController : MonoBehaviour
     private int friedChickenScore = 0;
     //スコア
     public int gameScore = 0;
-    //Game
-    public bool isPlayingGame = true;
 
  
     void Start()
@@ -33,7 +31,7 @@ public class ChickenController : MonoBehaviour
 
     void Update()
     {
-        if (isPlayingGame)
+        if (gameManager.isPlayingGame)
         {
             //スコア計算と表示
             ScoreCalculator();
@@ -77,51 +75,63 @@ public class ChickenController : MonoBehaviour
     //BombとWoodに当たった時
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //木に当たる
-        if (collision.gameObject.CompareTag("WoodTag"))
+        if (gameManager.isPlayingGame)
         {
-            //当たったx座標の正負でジャンプ方向を決める
-            ContactPoint2D[] contact = collision.contacts;
-            if (contact[0].point.x < 0)
+            //木に当たる
+            if (collision.gameObject.CompareTag("WoodTag"))
             {
-                //右ジャンプ
-                this.Jump(true);
-            }
-            else
-            {
-                //左ジャンプ
-                this.Jump(false);
+                //当たったx座標の正負でジャンプ方向を決める
+                ContactPoint2D[] contact = collision.contacts;
+                if (contact[0].point.x < 0)
+                {
+                    //右ジャンプ
+                    this.Jump(true);
+                }
+                else
+                {
+                    //左ジャンプ
+                    this.Jump(false);
+                }
+
             }
 
-        }
-
-        //Bombに当たる
-        if (collision.gameObject.CompareTag("BombTag"))
-        {
-            this.myAnimator.SetTrigger("EndTrigger");
-            //ハイスコアを更新していたらハイスコア更新
-            Debug.Log($"heighScore:{gameManager.heighScore}");
-            if(gameScore > gameManager.heighScore)
+            //Bombに当たる
+            if (collision.gameObject.CompareTag("BombTag"))
             {
-                gameManager.heighScore = gameScore;
-                // スコアを保存
-                gameManager.SaveScore(gameScore);
+                //死亡アニメ,音,タップ反応なし
+                myAnimator.SetTrigger("EndTrigger");
+                audioController.PlayEndSound();
+                gameManager.isPlayingGame = false;
+                //前回スコアを更新
+                gameManager.SaveLastRecord(gameScore);
+                //ハイスコアを更新していたらハイスコア更新
+                if (gameScore > gameManager.heighScore)
+                {
+                    gameManager.heighScore = gameScore;
+                    // スコアを保存
+                    gameManager.SaveBestScore(gameScore);
+                }
+                //シーンをリロード
+                gameManager.ReloadScene();
+
             }
-            //シーンをリロード
-            Debug.Log("当たった");
-            gameManager.ReloadScene();
-            
+
         }
     }
 
     //friedChickenに当たった時
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("FriedChickenTag"))
+        if (gameManager.isPlayingGame)
         {
-            this.friedChickenScore += 100;
-            Destroy(collision.gameObject);
+            if (collision.gameObject.CompareTag("FriedChickenTag"))
+            {
+                this.friedChickenScore += 100;
+                Destroy(collision.gameObject);
+            }
+
         }
+
     }
 
     //左右ジャンプ
@@ -151,7 +161,7 @@ public class ChickenController : MonoBehaviour
         //計算
         gameScore = (int)this.transform.position.y + this.friedChickenScore + 4;
         //表示
-        scoreText.text = $"Score:{gameScore}";
+        scoreText.text = $"Record {gameScore}";
     }
 
 

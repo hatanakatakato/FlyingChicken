@@ -8,12 +8,13 @@ public class MainCameraController : MonoBehaviour
     public Camera myCamera;
     //外部のコンポーネント
     public Transform playerTransform;
+    public GameManagerScript gameManager;
 
     //ベースのアスペクト比を16:9にする
     public float baseWidth = 9.0f;
     public float baseHeight = 16.0f;
     //Playerよりカメラを高い位置におく
-    public float distanceHeight = 4.2f;
+    public float distanceHeight = 2f;
 
     void Awake()
     {
@@ -25,8 +26,13 @@ public class MainCameraController : MonoBehaviour
 
     private void Update()
     {
-        //カメラをplayerに合わせて動かす
-        this.transform.position = new Vector3(0f, playerTransform.position.y + distanceHeight, -10f);
+        if (gameManager.isPlayingGame)
+        {
+            //カメラをplayerに合わせて動かす
+            this.transform.position = new Vector3(0f, playerTransform.position.y + distanceHeight, -10f);
+
+        }
+
     }
 
 }
