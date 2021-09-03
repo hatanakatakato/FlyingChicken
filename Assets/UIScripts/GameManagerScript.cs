@@ -93,14 +93,16 @@ public class GameManagerScript : MonoBehaviour
 
 
     //シーンの再読み込み
-    public void ReloadScene()
+    IEnumerator ReloadScene()
     {
+        yield return new WaitForSeconds(0.5f);
         Debug.Log("リロード");
         // 現在のScene名を取得する
         Scene loadScene = SceneManager.GetActiveScene();
         // Sceneの読み直し
         SceneManager.LoadScene(loadScene.name);
     }
+
 
     //宝箱の開け閉め
     public void BoxStateChange(int isBoxOpen)

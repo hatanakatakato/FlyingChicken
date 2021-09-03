@@ -10,7 +10,9 @@ public class AudioController : MonoBehaviour
     //音ファイルmp3
     public AudioClip jumpSound;
     public AudioClip endSound;
+    public AudioClip eatingSound;
     public AudioClip[] clips;
+
 
     //ジャンプ音再生
     public void PlayJumpSound()
@@ -33,5 +35,11 @@ public class AudioController : MonoBehaviour
     {
         myAudioSource.clip = clips[1];
         myAudioSource.Play();
+    }
+    //肉食った音再生
+    public void PlayEatingSound()
+    {
+        myAudioSource.PlayOneShot(this.eatingSound);
+
     }
 }

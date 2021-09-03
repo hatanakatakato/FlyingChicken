@@ -112,7 +112,7 @@ public class ChickenController : MonoBehaviour
                     gameManager.SaveBestScore(gameScore);
                 }
                 //シーンをリロード
-                gameManager.ReloadScene();
+                gameManager.StartCoroutine("ReloadScene");
 
             }
 
@@ -129,6 +129,8 @@ public class ChickenController : MonoBehaviour
                 this.friedChickenScore += 100;
                 Destroy(collision.gameObject);
             }
+
+            audioController.PlayEatingSound();
 
         }
 
