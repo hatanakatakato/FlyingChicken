@@ -7,6 +7,7 @@ TagManager:
   - BombTag
   - FriedChickenTag
   - WoodTag
+  - UITag
   layers:
   - Default
   - TransparentFX

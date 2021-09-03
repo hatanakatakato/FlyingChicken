@@ -11,14 +11,19 @@ public class ChickenController : MonoBehaviour
     //外部から注入するコンポーネント
     public AudioController audioController;
     public Text scoreText;
+    public GameManagerScript gameManager;
     //速度
     [SerializeField] float maxVelocity = 10f;
     [SerializeField] float jumpVectorX = 4f;
     [SerializeField] float jumpVectorY = 10f;
     //フライドチキン獲得点
     private int friedChickenScore = 0;
+    //スコア
+    public int gameScore = 0;
+    //Game
+    public bool isPlayingGame = true;
 
-
+ 
     void Start()
     {
         //自身のコンポーネント取得
@@ -28,39 +33,43 @@ public class ChickenController : MonoBehaviour
 
     void Update()
     {
-        //スコア計算と表示
-        ScoreCalculator();
-
-        //タッチ操作
-        if (Input.touchCount > 0)
+        if (isPlayingGame)
         {
+            //スコア計算と表示
+            ScoreCalculator();
 
-            Touch[] myTouches = Input.touches;
-
-            //検出されている指の数だけ回して
-            //指の位置にImageを移動
-            for (int i = 0; i < myTouches.Length; i++)
+            //タッチ操作
+            if (Input.touchCount > 0)
             {
-                if (myTouches[i].phase == TouchPhase.Began && myTouches[i].position.x > Screen.width / 2)
-                {
-                    //右ジャンプ
-                    this.Jump(true);
 
-                }
-                else if (myTouches[i].phase == TouchPhase.Began && myTouches[i].position.x <= Screen.width / 2)
+                Touch[] myTouches = Input.touches;
+
+                //検出されている指の数だけ回して
+                //指の位置にImageを移動
+                for (int i = 0; i < myTouches.Length; i++)
                 {
-                    //左ジャンプ
-                    this.Jump(false);
+                    if (myTouches[i].phase == TouchPhase.Began && myTouches[i].position.x > Screen.width / 2)
+                    {
+                        //右ジャンプ
+                        this.Jump(true);
+
+                    }
+                    else if (myTouches[i].phase == TouchPhase.Began && myTouches[i].position.x <= Screen.width / 2)
+                    {
+                        //左ジャンプ
+                        this.Jump(false);
+                    }
+
                 }
 
             }
 
-        }
+            //落下の速度制限
+            if (this.myRb2D.velocity.y < -this.maxVelocity)
+            {
+                this.myRb2D.velocity = new Vector2(this.myRb2D.velocity.x, -this.maxVelocity);
+            }
 
-        //落下の速度制限
-        if (this.myRb2D.velocity.y < -this.maxVelocity)
-        {
-            this.myRb2D.velocity = new Vector2(this.myRb2D.velocity.x, -this.maxVelocity);
         }
 
     }
@@ -90,6 +99,18 @@ public class ChickenController : MonoBehaviour
         if (collision.gameObject.CompareTag("BombTag"))
         {
             this.myAnimator.SetTrigger("EndTrigger");
+            //ハイスコアを更新していたらハイスコア更新
+            Debug.Log($"heighScore:{gameManager.heighScore}");
+            if(gameScore > gameManager.heighScore)
+            {
+                gameManager.heighScore = gameScore;
+                // スコアを保存
+                gameManager.SaveScore(gameScore);
+            }
+            //シーンをリロード
+            Debug.Log("当たった");
+            gameManager.ReloadScene();
+            
         }
     }
 
@@ -128,9 +149,9 @@ public class ChickenController : MonoBehaviour
     private void ScoreCalculator()
     {
         //計算
-        int score = (int)this.transform.position.y + this.friedChickenScore + 4;
+        gameScore = (int)this.transform.position.y + this.friedChickenScore + 4;
         //表示
-        scoreText.text = $"Score:{score}";
+        scoreText.text = $"Score:{gameScore}";
     }
 
 

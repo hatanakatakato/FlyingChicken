@@ -8,7 +8,7 @@ public class DeleteController : MonoBehaviour
 
     void Start()
     {
-        this.playerTransform = GameObject.Find("Chicken").GetComponent<Transform>().transform;
+        this.playerTransform = GameObject.Find("PlayerChicken").GetComponent<Transform>().transform;
     }
 
     void Update()

@@ -26,7 +26,6 @@ public class MainCameraController : MonoBehaviour
     private void Update()
     {
         //カメラをplayerに合わせて動かす
-
         this.transform.position = new Vector3(0f, playerTransform.position.y + distanceHeight, -10f);
     }
 
