@@ -99,9 +99,9 @@ public class ChickenController : MonoBehaviour
             if (collision.gameObject.CompareTag("BombTag"))
             {
                 //死亡アニメ,音,タップ反応なし
+                gameManager.isPlayingGame = false;
                 myAnimator.SetTrigger("EndTrigger");
                 audioController.PlayEndSound();
-                gameManager.isPlayingGame = false;
                 //前回スコアを更新
                 gameManager.SaveLastRecord(gameScore);
                 //ハイスコアを更新していたらハイスコア更新
@@ -119,7 +119,7 @@ public class ChickenController : MonoBehaviour
         }
     }
 
-    //friedChickenに当たった時
+    //friedChicken,Keyに当たった
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameManager.isPlayingGame)
@@ -128,10 +128,16 @@ public class ChickenController : MonoBehaviour
             {
                 this.friedChickenScore += 100;
                 Destroy(collision.gameObject);
+                audioController.PlayEatingSound();
+            }else if (collision.gameObject.CompareTag("KeyTag"))
+            {
+                //鍵が発見された
+                PlayerPrefs.SetInt("KEY", 1);
+                PlayerPrefs.Save();
+                Destroy(collision.gameObject);
+                audioController.PlayKeySound();
             }
-
-            audioController.PlayEatingSound();
-
+            
         }
 
     }

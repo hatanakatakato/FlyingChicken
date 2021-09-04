@@ -5,9 +5,12 @@ using UnityEngine;
 public class AudioController : MonoBehaviour
 {
     //自身のコンポーネント
-    public AudioSource myAudioSource;
+    public AudioSource myBGMAudioSource;
+    public AudioSource mySEAudioSource;
+    public AudioSource myBIGSEAudioSource;
 
     //音ファイルmp3
+    public AudioClip keySound;
     public AudioClip jumpSound;
     public AudioClip endSound;
     public AudioClip eatingSound;
@@ -17,29 +20,35 @@ public class AudioController : MonoBehaviour
     //ジャンプ音再生
     public void PlayJumpSound()
     {
-        myAudioSource.PlayOneShot(this.jumpSound);
+        mySEAudioSource.PlayOneShot(this.jumpSound);
     }
     //死んだ音再生
     public void PlayEndSound()
     {
-        myAudioSource.PlayOneShot(this.endSound);
+        mySEAudioSource.PlayOneShot(this.endSound);
     }
     //メニューBGM再生
     public void PlayMenuBGM()
     {
-        myAudioSource.clip = clips[0];
-        myAudioSource.Play();
+        myBGMAudioSource.clip = clips[0];
+        myBGMAudioSource.Play();
     }
     //GameBGM再生
     public void PlayGameBGM()
     {
-        myAudioSource.clip = clips[1];
-        myAudioSource.Play();
+        myBGMAudioSource.clip = clips[1];
+        myBGMAudioSource.Play();
     }
     //肉食った音再生
     public void PlayEatingSound()
     {
-        myAudioSource.PlayOneShot(this.eatingSound);
+        myBIGSEAudioSource.PlayOneShot(this.eatingSound);
 
     }
+    //鍵音再生
+    public void PlayKeySound()
+    {
+        mySEAudioSource.PlayOneShot(keySound);
+    }
+
 }

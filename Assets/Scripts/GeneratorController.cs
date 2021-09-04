@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class GeneratorController : MonoBehaviour
 {
+    //外部からコンポーネント入れる
+    public GameManagerScript gameManagerScript;
     //外部からprefab取得
     public GameObject bombPrefab;
     public GameObject friedChickenPrefab;
     public GameObject woodPrefab;
+    public GameObject keyPrefab;
     //外部からコンポーネント取得
     public Transform playerTransform;
 
+    //鍵を生成するPlayerの高さ
+    [SerializeField] float keyAppearHeight = 20f;
+    private bool isKeyAppear = false;
     //アイテム生成開始位置Y
     [SerializeField] float nextItemAppearPosY = 8f;
     //次の柵生成位置
@@ -28,6 +34,13 @@ public class GeneratorController : MonoBehaviour
 
     void Update()
     {
+        //鍵を生成(鍵がこのゲーム中に出現していない,かつplayerが15以上高い)
+        if(!isKeyAppear && playerTransform.position.y > keyAppearHeight)
+        {
+            GameObject instance = Instantiate(keyPrefab);
+            instance.transform.position = new Vector2(-2, -3.5f);
+        }
+
 
         //爆弾またはフライドチキンを生成
         if (this.nextItemAppearPosY - playerTransform.position.y < 20f)
