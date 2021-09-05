@@ -30,6 +30,8 @@ public class GameManagerScript : MonoBehaviour
     private int isKeyFound = 0;
     //変数
     public bool isPlayingGame = false;
+    //アプリ内評価をゲーム終了4回目にだす。
+    private int numForAppReview = 0;
 
 
     private void Start()
@@ -42,6 +44,12 @@ public class GameManagerScript : MonoBehaviour
         bestScoreText.GetComponent<Text>().text = $"{heighScore}";
         lastTimeScoreText.GetComponent<Text>().text = $"LastRecord {lastScore}";
         MenuUI();
+        //アプリ内評価。
+        if(heighScore > 300)
+        {
+            StoreReviewManager.Instance.RequestReview();
+        }
+
 
     }
 
