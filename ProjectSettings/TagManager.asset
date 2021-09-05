@@ -8,6 +8,8 @@ TagManager:
   - FriedChickenTag
   - WoodTag
   - UITag
+  - KeyTag
+  - GroundTag
   layers:
   - Default
   - TransparentFX

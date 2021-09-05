@@ -5,16 +5,28 @@ using UnityEngine;
 public class DeleteController : MonoBehaviour
 {
     private Transform playerTransform;
+    private float deleteBellow;
 
     void Start()
     {
-        this.playerTransform = GameObject.Find("PlayerChicken").GetComponent<Transform>().transform;
+        playerTransform = GameObject.Find("PlayerChicken").GetComponent<Transform>();
+
+        if (this.CompareTag("BombTag") || this.CompareTag("FriedChickenTag"))
+        {
+            //19なのはkeyの生成が20だから被らないようにするため
+            deleteBellow = 19f;
+        }
+        else if (this.CompareTag("WoodTag") || this.CompareTag("GroundTag") || this.CompareTag("KeyTag"))
+        {
+            deleteBellow = 50f;
+        }
+
     }
 
     void Update()
     {
         //Playerよりyに-20離れたら消滅
-        if (playerTransform.position.y - this.transform.position.y > 10f)
+        if (playerTransform.position.y - this.transform.position.y > deleteBellow)
         {
             Destroy(this.gameObject);
         }

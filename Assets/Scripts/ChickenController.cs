@@ -20,6 +20,11 @@ public class ChickenController : MonoBehaviour
     private int friedChickenScore = 0;
     //スコア
     public int gameScore = 0;
+    //最高到達高さ
+    public int maxHeight;
+    //落下の距離制限
+    private int bellowlimit = 100;
+
 
  
     void Start()
@@ -31,6 +36,7 @@ public class ChickenController : MonoBehaviour
 
     void Update()
     {
+        //ゲーム中のみ反応する
         if (gameManager.isPlayingGame)
         {
             //スコア計算と表示
@@ -63,11 +69,16 @@ public class ChickenController : MonoBehaviour
             }
 
             //落下の速度制限
-            if (this.myRb2D.velocity.y < -this.maxVelocity)
+            if (myRb2D.velocity.y < -maxVelocity)
             {
                 this.myRb2D.velocity = new Vector2(this.myRb2D.velocity.x, -this.maxVelocity);
             }
 
+            //落下の距離制限
+            if(this.transform.position.y < maxHeight - bellowlimit)
+            {
+                playerDeth();
+            }
         }
 
     }
@@ -75,6 +86,7 @@ public class ChickenController : MonoBehaviour
     //BombとWoodに当たった時
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //ゲーム中のみ反応する
         if (gameManager.isPlayingGame)
         {
             //木に当たる
@@ -98,22 +110,7 @@ public class ChickenController : MonoBehaviour
             //Bombに当たる
             if (collision.gameObject.CompareTag("BombTag"))
             {
-                //死亡アニメ,音,タップ反応なし
-                gameManager.isPlayingGame = false;
-                myAnimator.SetTrigger("EndTrigger");
-                audioController.PlayEndSound();
-                //前回スコアを更新
-                gameManager.SaveLastRecord(gameScore);
-                //ハイスコアを更新していたらハイスコア更新
-                if (gameScore > gameManager.heighScore)
-                {
-                    gameManager.heighScore = gameScore;
-                    // スコアを保存
-                    gameManager.SaveBestScore(gameScore);
-                }
-                //シーンをリロード
-                gameManager.StartCoroutine("ReloadScene");
-
+                playerDeth();
             }
 
         }
@@ -158,20 +155,49 @@ public class ChickenController : MonoBehaviour
             this.myRb2D.velocity = new Vector2(-this.jumpVectorX, this.jumpVectorY);
         }
 
-        //無敵状態じゃないならジャンプ音を鳴らす
-
         this.audioController.PlayJumpSound();
     }
 
     //スコア計算と表示
     private void ScoreCalculator()
     {
+
+        //最高到達点を更新
+        if(maxHeight < this.transform.position.y)
+        {
+            maxHeight = (int)this.transform.position.y;
+        }
+
+
         //計算
-        gameScore = (int)this.transform.position.y + this.friedChickenScore + 4;
-        //表示
-        scoreText.text = $"Record {gameScore}";
+        int score = (int)this.transform.position.y + this.friedChickenScore + 4;
+
+        //スコアが高くなってたら表示
+        if(score > gameScore)
+        {
+            gameScore = score;
+            scoreText.text = $"Record {gameScore}";
+        }
     }
 
+    private void playerDeth()
+    {
+        //死亡アニメ,音,タップ反応なし
+        gameManager.isPlayingGame = false;
+        myAnimator.SetTrigger("EndTrigger");
+        audioController.PlayEndSound();
+        //前回スコアを更新
+        gameManager.SaveLastRecord(gameScore);
+        //ハイスコアを更新していたらハイスコア更新
+        if (gameScore > gameManager.heighScore)
+        {
+            gameManager.heighScore = gameScore;
+            // スコアを保存
+            gameManager.SaveBestScore(gameScore);
+        }
+        //シーンをリロード
+        gameManager.StartCoroutine("ReloadScene");
 
+    }
 
 }

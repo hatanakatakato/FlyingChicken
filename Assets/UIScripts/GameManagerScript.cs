@@ -17,6 +17,7 @@ public class GameManagerScript : MonoBehaviour
     public GameObject yourBestText;
     public GameObject bestScoreText;
     public GameObject lastTimeScoreText;
+    public GameObject noKeyPopupText;
     //ButtonUI
     public GameObject shearButton;
     public GameObject boxClosedButton;
@@ -37,7 +38,7 @@ public class GameManagerScript : MonoBehaviour
         lastScore = PlayerPrefs.GetInt("LASTSCORE", 0);
         isBoxOpen = PlayerPrefs.GetInt("BOXSTATE", 0);
         isKeyFound = PlayerPrefs.GetInt("KEY", 0);
-        Debug.Log($"{heighScore},{lastScore}");
+
         bestScoreText.GetComponent<Text>().text = $"{heighScore}";
         lastTimeScoreText.GetComponent<Text>().text = $"LastRecord {lastScore}";
         MenuUI();
@@ -58,6 +59,7 @@ public class GameManagerScript : MonoBehaviour
         boxOpenButton.SetActive(false);
         startButton.SetActive(false);
         lastTimeScoreText.SetActive(false);
+        noKeyPopupText.SetActive(false);
         //BGM
         audioController.PlayGameBGM();
         //変数
@@ -74,7 +76,18 @@ public class GameManagerScript : MonoBehaviour
         shearButton.SetActive(true);
         startButton.SetActive(true);
         lastTimeScoreText.SetActive(true);
-        BoxStateChange(isBoxOpen);
+        noKeyPopupText.SetActive(false);
+        if(isBoxOpen == 1)
+        {
+            boxClosedButton.SetActive(false);
+            boxOpenButton.SetActive(true);
+        }
+        else
+        {
+            boxClosedButton.SetActive(true);
+            boxOpenButton.SetActive(false);
+        }
+
         //BGM
         audioController.PlayMenuBGM();
         isPlayingGame = false;
@@ -92,21 +105,6 @@ public class GameManagerScript : MonoBehaviour
     {
         PlayerPrefs.SetInt("LASTSCORE", score);
         PlayerPrefs.Save();
-    }
-
-    //宝箱の開け閉め
-    public void BoxStateChange(int isBoxOpen)
-    {
-        if (isBoxOpen == 1)
-        {
-            boxClosedButton.SetActive(false);
-            boxOpenButton.SetActive(true);
-        }
-        else
-        {
-            boxClosedButton.SetActive(true);
-            boxOpenButton.SetActive(false);
-        }
     }
 
     //isPlayingGameを1フレーム遅れてtrueにする
@@ -137,7 +135,7 @@ public class GameManagerScript : MonoBehaviour
         payload.Commit();
     }
 
-    //ボタンの開け閉め
+    //宝箱ボタンの開け閉め
     public void BoxStateChange()
     {
         if (isKeyFound == 1)
@@ -148,7 +146,7 @@ public class GameManagerScript : MonoBehaviour
                 boxOpenButton.SetActive(false);
                 boxClosedButton.SetActive(true);
                 isBoxOpen = 0;
-                PlayerPrefs.SetInt("BOXSTATE", 1);
+                PlayerPrefs.SetInt("BOXSTATE", 0);
                 PlayerPrefs.Save();
             }
             else
@@ -157,7 +155,7 @@ public class GameManagerScript : MonoBehaviour
                 boxOpenButton.SetActive(true);
                 boxClosedButton.SetActive(false);
                 isBoxOpen = 1;
-                PlayerPrefs.SetInt("BOXSTATE", 0);
+                PlayerPrefs.SetInt("BOXSTATE", 1);
                 PlayerPrefs.Save();
 
             }
@@ -165,6 +163,7 @@ public class GameManagerScript : MonoBehaviour
         else
         {
             //鍵を探すようにpopupを出す
+            noKeyPopupText.SetActive(true);
         }
 
     }
