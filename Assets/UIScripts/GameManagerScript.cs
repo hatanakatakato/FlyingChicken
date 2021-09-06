@@ -18,6 +18,7 @@ public class GameManagerScript : MonoBehaviour
     public GameObject bestScoreText;
     public GameObject lastTimeScoreText;
     public GameObject noKeyPopupText;
+    public GameObject noConnectionText;
     //ButtonUI
     public GameObject shearButton;
     public GameObject boxClosedButton;
@@ -55,23 +56,37 @@ public class GameManagerScript : MonoBehaviour
 
 
 
-    //ゲーム中
+    //ネット接続確認後ゲーム中にする(isPlayingGame = true)
     public void PlayingGameUI()
     {
-        //UI
-        scoreText.SetActive(true);
-        yourBestText.SetActive(false);
-        bestScoreText.SetActive(false);
-        shearButton.SetActive(false);
-        boxClosedButton.SetActive(false);
-        boxOpenButton.SetActive(false);
-        startButton.SetActive(false);
-        lastTimeScoreText.SetActive(false);
-        noKeyPopupText.SetActive(false);
-        //BGM
-        audioController.PlayGameBGM();
-        //変数
-        StartCoroutine("IsPlayingGameTrue");
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            // 機内モードなど、ネットワーク接続エラー状態
+            this.gameObject.SetActive(true);
+            noConnectionText.GetComponent<NoConnectionTextScript>().showingTime = 1f;
+            noConnectionText.SetActive(true);
+            Debug.Log("ネット未接続");
+        }
+        else
+        {
+            // ネットワーク接続OK状態
+            //UI
+            scoreText.SetActive(true);
+            yourBestText.SetActive(false);
+            bestScoreText.SetActive(false);
+            shearButton.SetActive(false);
+            boxClosedButton.SetActive(false);
+            boxOpenButton.SetActive(false);
+            startButton.SetActive(false);
+            lastTimeScoreText.SetActive(false);
+            noKeyPopupText.SetActive(false);
+            noConnectionText.SetActive(false);
+            //BGM
+            audioController.PlayGameBGM();
+            //変数
+            StartCoroutine("IsPlayingGameTrue");
+        }
+
     }
 
     //Menu画面のUI
@@ -85,6 +100,7 @@ public class GameManagerScript : MonoBehaviour
         startButton.SetActive(true);
         lastTimeScoreText.SetActive(true);
         noKeyPopupText.SetActive(false);
+        noConnectionText.SetActive(false);
         if(isBoxOpen == 1)
         {
             boxClosedButton.SetActive(false);
