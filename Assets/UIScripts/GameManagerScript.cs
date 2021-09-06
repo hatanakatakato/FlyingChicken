@@ -46,15 +46,16 @@ public class GameManagerScript : MonoBehaviour
         bestScoreText.GetComponent<Text>().text = $"{heighScore}";
         lastTimeScoreText.GetComponent<Text>().text = $"LastRecord {lastScore}";
         MenuUI();
+        RepositoryScript.instance.gameNum += 1;
+
         //アプリ内評価出現
-        if(heighScore > 300)
+        //広告と被らないようにもし出すなら奇数番目に出ることにする
+        if (heighScore > 300 && RepositoryScript.instance.gameNum % 2 == 1)
         {
             StoreReviewManager.Instance.RequestReview();
         }
-
         //インターステシャル広告を最初は表示しない
         //偶数番目だけ表示する
-        RepositoryScript.instance.gameNum += 1;
         if (RepositoryScript.instance.gameNum % 2 == 0)
         {
             admobInterstitialScript.ShowAdMobInterstitial();
