@@ -31,8 +31,7 @@ public class GameManagerScript : MonoBehaviour
     private int isKeyFound = 0;
     //変数
     public bool isPlayingGame = false;
-    //アプリ内評価をゲーム終了4回目にだす。
-    private int numForAppReview = 0;
+
 
 
     private void Start()
@@ -63,7 +62,7 @@ public class GameManagerScript : MonoBehaviour
         {
             // 機内モードなど、ネットワーク接続エラー状態
             this.gameObject.SetActive(true);
-            noConnectionText.GetComponent<NoConnectionTextScript>().showingTime = 1f;
+            noConnectionText.GetComponent<NoConnectionTextScript>().deleteTime = 1f;
             noConnectionText.SetActive(true);
             Debug.Log("ネット未接続");
         }
