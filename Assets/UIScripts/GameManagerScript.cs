@@ -5,13 +5,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using NatSuite.Sharing;
 
-//保存しているPlayerPrefsは
-//"BESTSCORE""LASTSCORE""BOXSTATE""KEY"
-
 public class GameManagerScript : MonoBehaviour
 {
+
+    //外部からアサイン
     public AudioController audioController;
     public GameObject Player;
+    public AdMobInterstitialScript admobInterstitialScript;
     //テキストUI
     public GameObject scoreText;
     public GameObject yourBestText;
@@ -25,6 +25,7 @@ public class GameManagerScript : MonoBehaviour
     public GameObject boxOpenButton;
     public GameObject startButton;
     //PlayerPref
+    //"BESTSCORE""LASTSCORE""BOXSTATE""KEY"
     public int heighScore = 0;
     public int lastScore = 0;
     public int isBoxOpen = 0;//0,1でboolとして使う
@@ -36,6 +37,7 @@ public class GameManagerScript : MonoBehaviour
 
     private void Start()
     {
+
         heighScore = PlayerPrefs.GetInt("BESTSCORE", 0);
         lastScore = PlayerPrefs.GetInt("LASTSCORE", 0);
         isBoxOpen = PlayerPrefs.GetInt("BOXSTATE", 0);
@@ -44,12 +46,19 @@ public class GameManagerScript : MonoBehaviour
         bestScoreText.GetComponent<Text>().text = $"{heighScore}";
         lastTimeScoreText.GetComponent<Text>().text = $"LastRecord {lastScore}";
         MenuUI();
-        //アプリ内評価。
+        //アプリ内評価出現
         if(heighScore > 300)
         {
             StoreReviewManager.Instance.RequestReview();
         }
 
+        //インターステシャル広告を最初は表示しない
+        //偶数番目だけ表示する
+        RepositoryScript.instance.gameNum += 1;
+        if (RepositoryScript.instance.gameNum % 2 == 0)
+        {
+            admobInterstitialScript.ShowAdMobInterstitial();
+        }
 
     }
 
@@ -148,6 +157,7 @@ public class GameManagerScript : MonoBehaviour
         Scene loadScene = SceneManager.GetActiveScene();
         // Sceneの読み直し
         SceneManager.LoadScene(loadScene.name);
+
     }
 
     //シェア機能
