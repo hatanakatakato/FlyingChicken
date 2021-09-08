@@ -71,9 +71,8 @@ public class GameManagerScript : MonoBehaviour
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
             // 機内モードなど、ネットワーク接続エラー状態
-            this.gameObject.SetActive(true);
-            noConnectionText.GetComponent<NoConnectionTextScript>().deleteTime = 1f;
             noConnectionText.SetActive(true);
+            noConnectionText.GetComponent<NoConnectionTextScript>().deleteTime = 2f;
             Debug.Log("ネット未接続");
         }
         else
