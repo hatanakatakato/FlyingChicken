@@ -72,8 +72,7 @@ public class GameManagerScript : MonoBehaviour
         {
             // 機内モードなど、ネットワーク接続エラー状態
             noConnectionText.SetActive(true);
-            noConnectionText.GetComponent<NoConnectionTextScript>().deleteTime = 2f;
-            Debug.Log("ネット未接続");
+            noConnectionText.GetComponent<NoConnectionTextScript>().deleteTime = 1f;
         }
         else
         {
