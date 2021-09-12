@@ -25,7 +25,7 @@ public class DeleteController : MonoBehaviour
 
     void Update()
     {
-        //Playerよりyに-20離れたら消滅
+        //PlayerよりyにdeleteBelow離れたら消滅
         if (playerTransform.position.y - this.transform.position.y > deleteBellow)
         {
             Destroy(this.gameObject);
