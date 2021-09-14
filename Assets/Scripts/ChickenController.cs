@@ -23,7 +23,7 @@ public class ChickenController : MonoBehaviour
     //最高到達高さ
     public int maxHeight;
     //落下の距離制限
-    private int bellowlimit = 40;
+    private int bellowlimit = 100;
 
 
  
@@ -195,7 +195,7 @@ public class ChickenController : MonoBehaviour
             // スコアを保存
             gameManager.SaveBestScore(gameScore);
         }
-        //シーンをリロード(コルーチンで少し遅らせてる)
+        //シーンをリロード
         gameManager.StartCoroutine("ReloadScene");
 
     }

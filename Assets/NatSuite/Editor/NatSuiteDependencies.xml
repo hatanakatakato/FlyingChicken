@@ -1,5 +1,0 @@
-<dependencies>
-  <androidPackages>
-    <androidPackage spec="androidx.legacy:legacy-support-v4:1.0.0-rc02"/>
-  </androidPackages>
-</dependencies>
